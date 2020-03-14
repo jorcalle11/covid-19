@@ -26,7 +26,8 @@
 <body>
   <div id="map"></div>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUjyHBPL6UV0qpW4xjAYKqtbJlJVFnGI"></script>
-  <script>
+  <script type="module">
+    import virusStyles from './virusStyles.js';
     const $map = document.querySelector('#map');
 
     start()
@@ -49,7 +50,8 @@
     function initMap() {
       return new google.maps.Map($map, {
         center: { lat: 0, lng: 0 },
-        zoom: 3
+        zoom: 3,
+        styles: virusStyles
       });
     }
 
