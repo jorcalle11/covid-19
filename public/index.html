@@ -25,8 +25,26 @@
 
 <body>
   <div id="map"></div>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUjyHBPL6UV0qpW4xjAYKqtbJlJVFnGI"></script>
   <script>
     const $map = document.querySelector('#map');
+
+    start()
+
+    async function start() {
+      const map = initMap();
+      const popup = new google.maps.InfoWindow();
+      const stats = await getStats();
+
+      for (const city of stats) {
+        if (!city.confirmed) continue;
+
+        const position = { lat: city.lat, lng: city.lng };
+        const title = `${city.confirmed} ${city.countryRegion}`;
+        const marker = addMarker(map, position, title);
+        marker.addListener('click', () => showPopup(popup, marker, city));
+      }
+    }
 
     function initMap() {
       return new google.maps.Map($map, {
@@ -35,9 +53,49 @@
       });
     }
 
+    async function getStats() {
+      console.log('getting confirmed cases...')
+      const url = 'https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest'
+      const data = await fetch(url).then(res => res.json());
+      const mappedResponse = data.map(res => ({
+        countryRegion: res.countryregion,
+        provinceState: res.provincestate,
+        confirmed: res.confirmed,
+        deaths: res.deaths,
+        recovered: res.recovered,
+        lat: res.location.lat,
+        lng: res.location.lng
+      }));
+      return mappedResponse;
+    }
+
+    function addMarker(map, position, title) {
+      return new google.maps.Marker({
+        position,
+        map,
+        title,
+      })
+    }
+
+    function showPopup(popup, marker, city) {
+      const content = getContent(city);
+      popup.setContent(content);
+      popup.open(map, marker)
+    }
+
+    function getContent(city) {
+      return `
+        <div>
+            <p><strong>${city.provinceState || ''} - ${city.countryRegion}</strong></p>
+            <ul>
+                <li><strong>Confirmed: </strong> ${city.confirmed}</li>
+                <li><strong>Deaths: </strong> ${city.deaths}</li>
+                <li><strong>Recovered: </strong> ${city.recovered}</li>
+            </ul>
+        </div>
+        `
+    }
   </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUjyHBPL6UV0qpW4xjAYKqtbJlJVFnGI&callback=initMap"
-    async defer></script>
 </body>
 
 </html>
