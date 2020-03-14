@@ -1,0 +1,25 @@
+{
+  "name": "covid-19",
+  "version": "1.0.0",
+  "description": "Simple app to get stats about confirmed cases of covid-19 (aka coronavirus) in the world",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -p 6060 -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorcalle11/covid-19.git"
+  },
+  "keywords": [
+    "Covid-19"
+  ],
+  "author": "@jorcalle11",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jorcalle11/covid-19/issues"
+  },
+  "homepage": "https://github.com/jorcalle11/covid-19#readme",
+  "devDependencies": {
+    "http-server": "^0.12.1"
+  }
+}
