@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Covid-19 Monitoring</title>
   <style>
     #map {
@@ -30,7 +30,7 @@
     import virusStyles from './virusStyles.js';
     const $map = document.querySelector('#map');
 
-    start()
+    start();
 
     async function start() {
       const map = initMap();
@@ -56,8 +56,9 @@
     }
 
     async function getStats() {
-      console.log('getting confirmed cases...')
-      const url = 'https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest'
+      console.log('getting confirmed cases...');
+      const url =
+        'https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest';
       const data = await fetch(url).then(res => res.json());
       const mappedResponse = data.map(res => ({
         countryRegion: res.countryregion,
@@ -75,27 +76,29 @@
       return new google.maps.Marker({
         position,
         map,
-        title,
-      })
+        title
+      });
     }
 
     function showPopup(popup, marker, city) {
       const content = getContent(city);
       popup.setContent(content);
-      popup.open(map, marker)
+      popup.open(map, marker);
     }
 
     function getContent(city) {
       return `
         <div>
-            <p><strong>${city.provinceState || ''} - ${city.countryRegion}</strong></p>
+            <p><strong>${city.provinceState || ''} - ${
+        city.countryRegion
+        }</strong></p>
             <ul>
                 <li><strong>Confirmed: </strong> ${city.confirmed}</li>
                 <li><strong>Deaths: </strong> ${city.deaths}</li>
                 <li><strong>Recovered: </strong> ${city.recovered}</li>
             </ul>
         </div>
-        `
+        `;
     }
   </script>
 </body>
