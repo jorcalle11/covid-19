@@ -36,7 +36,7 @@
       const map = initMap();
       const popup = new google.maps.InfoWindow();
       const stats = await getStats();
-      console.log(stats);
+      console.log(`total of countries with confirmed cases are ${stats.length}`);
 
       for (const city of stats) {
         if (!city.confirmed) continue;
