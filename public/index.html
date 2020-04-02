@@ -36,6 +36,7 @@
       const map = initMap();
       const popup = new google.maps.InfoWindow();
       const stats = await getStats();
+      console.log('this message should emit a event');
 
       for (const city of stats) {
         if (!city.confirmed) continue;
